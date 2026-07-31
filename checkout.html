@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - John's Precious Metals</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        navy: '#0a192f',
+                        gold: '#d4af37',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans">
+
+    <!-- Distraction-Free Header -->
+    <header class="bg-white shadow-sm py-6">
+        <div class="max-w-4xl mx-auto px-4 flex justify-center items-center space-x-2">
+            <i class="fa-solid fa-coins text-gold text-3xl"></i>
+            <a href="index.html" class="font-bold text-2xl tracking-tight text-navy">John's Metals Checkout</a>
+        </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto px-4 py-10 grid grid-cols-1 lg:grid-cols-3 gap-10">
+        
+        <!-- Left Column: Checkout Forms -->
+        <div class="lg:col-span-2 space-y-8">
+            
+            <!-- Progress Indicator -->
+            <div class="flex items-center justify-between text-sm font-medium text-gray-500 mb-6">
+                <div class="flex items-center text-navy">
+                    <span class="bg-navy text-white rounded-full h-6 w-6 flex items-center justify-center mr-2">1</span>
+                    Shipping
+                </div>
+                <div class="flex-1 border-t-2 border-gray-200 mx-4"></div>
+                <div class="flex items-center">
+                    <span class="bg-gray-200 rounded-full h-6 w-6 flex items-center justify-center mr-2">2</span>
+                    Payment
+                </div>
+            </div>
+
+            <!-- Shipping Information -->
+            <section class="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
+                <h2 class="text-xl font-bold text-navy mb-4 border-b pb-2">Shipping Details</h2>
+                <form class="space-y-4">
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">First Name</label>
+                            <input type="text" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-gold focus:border-gold sm:text-sm">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Last Name</label>
+                            <input type="text" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-gold focus:border-gold sm:text-sm">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Email Address (For Order Updates & Tracking)</label>
+                        <input type="email" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-gold focus:border-gold sm:text-sm">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Street Address</label>
+                        <input type="text" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-gold focus:border-gold sm:text-sm">
+                    </div>
+                    <div class="grid grid-cols-3 gap-4">
+                        <div class="col-span-2">
+                            <label class="block text-sm font-medium text-gray-700">City</label>
+                            <input type="text" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-gold focus:border-gold sm:text-sm">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">ZIP</label>
+                            <input type="text" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-gold focus:border-gold sm:text-sm">
+                        </div>
+                    </div>
+                </form>
+            </section>
+
+            <!-- Payment Information -->
+            <section class="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
+                <h2 class="text-xl font-bold text-navy mb-4 border-b pb-2">Payment Method</h2>
+                
+                <div class="space-y-3">
+                    <label class="flex items-center p-4 border rounded cursor-pointer hover:bg-gray-50 border-gold bg-yellow-50">
+                        <input type="radio" name="payment" class="text-gold focus:ring-gold h-4 w-4" checked>
+                        <div class="ml-3 flex-1 flex justify-between">
+                            <span class="font-medium">Bank Wire Transfer</span>
+                            <span class="text-green-600 text-sm font-bold">Recommended (-3% Discount)</span>
+                        </div>
+                    </label>
+                    <label class="flex items-center p-4 border rounded cursor-pointer hover:bg-gray-50">
+                        <input type="radio" name="payment" class="text-navy h-4 w-4">
+                        <div class="ml-3 flex-1">
+                            <span class="font-medium">Credit Card (Visa, Mastercard, AMEX)</span>
+                        </div>
+                    </label>
+                </div>
+
+                <!-- Trust Badges -->
+                <div class="mt-6 flex items-center text-sm text-gray-500 bg-gray-50 p-3 rounded">
+                    <i class="fa-solid fa-lock text-green-600 mr-2 text-lg"></i>
+                    Your transaction is secured with 256-bit SSL encryption.
+                </div>
+            </section>
+
+        </div>
+
+        <!-- Right Column: Order Summary (Mini-Cart) -->
+        <!-- Right Column: Order Summary (Mini-Cart) -->
+        <div class="lg:col-span-1">
+            <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-navy sticky top-6">
+                <h2 class="text-lg font-bold text-navy mb-4 border-b pb-2">Order Summary</h2>
+                
+                <!-- Dynamic Cart Items Container -->
+                <div id="checkout-cart-items" class="space-y-4 mb-4">
+                    <!-- Items will be injected here -->
+                </div>
+
+                <!-- Totals -->
+                <div class="border-t pt-4 space-y-2 text-sm">
+                    <div class="flex justify-between text-gray-600">
+                        <span>Locked Metal Value</span>
+                        <span id="checkout-metal-value">$0.00</span>
+                    </div>
+                    <div class="flex justify-between text-gray-600">
+                        <span>Dealer Premium</span>
+                        <span id="checkout-premium">$0.00</span>
+                    </div>
+                    <div class="flex justify-between text-gray-600">
+                        <span>Shipping (Fully Insured)</span>
+                        <span class="text-green-600 font-bold">Free</span>
+                    </div>
+                </div>
+
+                <!-- Grand Total -->
+                <div class="border-t mt-4 pt-4 flex justify-between items-center">
+                    <span class="text-lg font-bold text-navy">Total</span>
+                    <span id="checkout-total" class="text-2xl font-bold text-green-600">$0.00</span>
+                </div>
+
+                <button onclick="placeOrder()" class="w-full mt-6 bg-gold hover:bg-yellow-600 text-navy font-bold py-3 px-4 rounded shadow-lg transition">
+                    Place Secure Order
+                </button>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Checkout Logic -->
+    <script>
+        const formatMoney = (amount) => {
+            return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(amount);
+        };
+
+        function renderCheckout() {
+            // Pull data from local storage
+            let cart = JSON.parse(localStorage.getItem('johnsMetalsCart')) || [];
+            const container = document.getElementById('checkout-cart-items');
+            
+            if (cart.length === 0) {
+                container.innerHTML = '<p class="text-gray-500 italic">Your cart is empty.</p>';
+                document.getElementById('checkout-metal-value').innerText = '$0.00';
+                document.getElementById('checkout-premium').innerText = '$0.00';
+                document.getElementById('checkout-total').innerText = '$0.00';
+                return;
+            }
+
+            let html = '';
+            let totalPremium = 0;
+            let grandTotal = 0;
+
+            cart.forEach(item => {
+                const itemTotal = item.price * item.quantity;
+                const itemPremiumTotal = item.premium * item.quantity;
+                
+                totalPremium += itemPremiumTotal;
+                grandTotal += itemTotal;
+
+                html += `
+                    <div class="flex justify-between items-start border-b border-gray-100 pb-3 last:border-0">
+                        <div>
+                            <h4 class="font-bold text-gray-800 text-sm">${item.name}</h4>
+                            <div class="flex items-center mt-1 space-x-3">
+                                <p class="text-xs text-gray-500">Qty: ${item.quantity}</p>
+                                <button onclick="removeItem(${item.id})" class="text-xs text-red-500 hover:text-red-700 transition flex items-center">
+                                    <i class="fa-solid fa-trash-can mr-1"></i> Remove
+                                </button>
+                            </div>
+                        </div>
+                        <span class="font-bold text-gray-800">${formatMoney(itemTotal)}</span>
+                    </div>
+                `;
+            });
+
+            container.innerHTML = html;
+            
+            const metalValue = grandTotal - totalPremium;
+            document.getElementById('checkout-metal-value').innerText = formatMoney(metalValue);
+            document.getElementById('checkout-premium').innerText = formatMoney(totalPremium);
+            document.getElementById('checkout-total').innerText = formatMoney(grandTotal);
+        }
+
+        // New function to handle removing items
+        function removeItem(id) {
+            let cart = JSON.parse(localStorage.getItem('johnsMetalsCart')) || [];
+            
+            // Filter out the item with the matching ID
+            cart = cart.filter(item => item.id !== id);
+            
+            // Save the updated cart back to local storage
+            localStorage.setItem('johnsMetalsCart', JSON.stringify(cart));
+            
+            // Re-render the checkout page to show the updated totals
+            renderCheckout();
+        }
+
+        function placeOrder() {
+            let cart = JSON.parse(localStorage.getItem('johnsMetalsCart')) || [];
+            if(cart.length === 0) {
+                alert("Your cart is empty!");
+                return;
+            }
+            alert('Order Placed!\n\nIn a real environment, this triggers the Upstate Coins API fulfillment and Zoho CRM update.\n\nClearing cart for prototype...');
+            localStorage.removeItem('johnsMetalsCart');
+            window.location.href = 'index.html'; 
+        }
+
+        // Run on page load
+        document.addEventListener('DOMContentLoaded', renderCheckout);
+    </script>
+
+    </main>
+</body>
+</html>

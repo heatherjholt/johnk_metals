@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Platinum Bullion - John's Precious Metals</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = { theme: { extend: { colors: { navy: '#0a192f', gold: '#d4af37' } } } }
+    </script>
+    <style>
+        .price-flash { animation: flashGreen 1s ease-out; }
+        @keyframes flashGreen { 0% { background-color: rgba(34, 197, 94, 0.2); } 100% { background-color: transparent; } }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans">
+
+    <!-- Live Market Ticker -->
+    <div class="bg-navy text-white text-sm py-2 px-4 flex justify-between items-center overflow-hidden">
+        <div class="flex space-x-6 whitespace-nowrap" id="ticker-bar"><span>Loading live markets...</span></div>
+        <div class="text-xs text-gray-400 hidden sm:block"><i class="fa-solid fa-bolt text-yellow-400"></i> Powered by Upstate Coins API</div>
+    </div>
+
+<nav class="bg-white shadow-md sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-20 items-center">
+                
+                <!-- Left Container: Logo -->
+                <div class="flex-1 flex items-center justify-start space-x-2">
+                    <i class="fa-solid fa-coins text-gold text-3xl"></i>
+                    <a href="index.html" class="font-bold text-2xl tracking-tight text-navy">John's Metals</a>
+                </div>
+                
+                <!-- Middle Container: Links -->
+                <div class="flex-1 hidden md:flex justify-center space-x-8 font-semibold text-gray-600">
+                    <a href="gold.html" class="hover:text-gold transition">Gold</a>
+                    <a href="silver.html" class="hover:text-gold transition">Silver</a>
+                    <a href="platinum.html" class="hover:text-gold transition">Platinum</a>
+                    <a href="deals.html" class="hover:text-gold transition">Deals</a>
+                    <a href="about.html" class="hover:text-gold transition">About Us</a>
+                </div>
+                
+                <!-- Right Container: Icons -->
+                <div class="flex-1 flex items-center justify-end space-x-4 text-navy">
+                    <a href="login.html" class="hover:text-gold"><i class="fa-solid fa-user text-xl"></i></a>
+                    <a href="checkout.html" class="hover:text-gold relative">
+                        <i class="fa-solid fa-shopping-cart text-xl"></i>
+                        <span id="cart-count" class="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center transition-transform duration-200">0</span>
+                    </a>
+                </div>
+                
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <div class="bg-slate-200 py-12 border-t border-slate-300 shadow-inner">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <h1 class="text-3xl sm:text-4xl font-bold text-navy mb-2">Platinum Bullion & Coins</h1>
+            <p class="text-gray-600">Diversify your portfolio with industrial and investment-grade platinum.</p>
+        </div>
+    </div>
+
+    <!-- Main Content Area -->
+    <div class="max-w-7xl mx-auto px-4 py-12">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6" id="category-grid">
+            <!-- Products injected by JS -->
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="script.js"></script>
+    <script>
+        const categoryProducts = [
+            { id: 401, name: "1 oz Platinum Maple Leaf", metal: "platinum", weightOz: 1, premium: 65.00, image: "https://imgs.search.brave.com/cP_UQY10LXGB3Yca0OcdL5u4ASCCodnyxVJdeV0qWzo/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9qYW5k/bWNvaW5zLmNvbS9j/ZG4vc2hvcC9maWxl/cy9mYWxzZV9lM2Rl/ZTQwNy04NTBmLTQ3/ZTYtYjcyOC05YmVl/MGZhNjAxNmQuanBn/P3Y9MTcxNzAzNDgw/NSZ3aWR0aD17d2lk/dGh9" },
+            { id: 402, name: "1 oz Platinum Eagle", metal: "platinum", weightOz: 1, premium: 80.00, image: "https://imgs.search.brave.com/OFG-KIs7nPaYuOgMp8GECzUBD6WHSji82J7X3oa8Vds/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly93d3cu/bW9uZXltZXRhbHMu/Y29tL2ltYWdlcy9w/cm9kdWN0cy9BbWVy/aWNhbi1QbGF0aW51/bS1lYWdsZS1Db2lu/cy0xYS5wbmc" },
+            { id: 403, name: "1 oz Platinum Bar (Valcambi)", metal: "platinum", weightOz: 1, premium: 55.00, image: "https://imgs.search.brave.com/6Ym2ZGN4v-GnQUFcM_SsHLZ0AM6bK-ZQKDGClQ0g5yc/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9jZG4x/MS5iaWdjb21tZXJj/ZS5jb20vcy1vamJl/eG45emI2L2ltYWdl/cy9zdGVuY2lsLzUw/MHg2NTkvcHJvZHVj/dHMvMTU4OTk1Lzk3/ODE2LzF2YWxwbGF0/X25ld19vYnZfNjAw/eDYwMF9wbmdfXzM4/NjMyLjE2MTQxNzM0/NDAucG5nP2M9MQ" }
+        ];
+
+        function renderCategory() {
+            const grid = document.getElementById('category-grid');
+            if (!grid) return;
+            grid.innerHTML = ''; 
+            categoryProducts.forEach(product => {
+                const retailPrice = (spotPrices[product.metal] * product.weightOz) + product.premium;
+                grid.innerHTML += `
+                    <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition duration-300 flex flex-col">
+                        <div class="h-48 overflow-hidden bg-gray-200"><img src="${product.image}" class="w-full h-full object-cover"></div>
+                        <div class="p-5 flex-grow flex flex-col justify-between">
+                            <div>
+                                <p class="text-xs text-gray-500 uppercase font-bold tracking-wider mb-1">${product.weightOz} oz ${product.metal}</p>
+                                <h3 class="text-lg font-bold text-navy mb-2 leading-tight">${product.name}</h3>
+                            </div>
+                            <div class="mt-4 price-container rounded p-2 -mx-2 transition-colors duration-300">
+                                <p class="text-2xl font-bold text-green-600">${formatMoney(retailPrice)}</p>
+                            </div>
+                            <button onclick="addToCart(${product.id}, '${product.name}', ${retailPrice}, ${product.premium})" class="mt-4 w-full bg-navy text-white font-semibold py-2 rounded hover:bg-gold transition duration-300">Add to Cart</button>
+                        </div>
+                    </div>`;
+            });
+        }
+
+        function simulateMarketChanges() {
+            spotPrices.gold *= (1 + (Math.random() * 0.002 - 0.001));
+            spotPrices.silver *= (1 + (Math.random() * 0.004 - 0.002));
+            spotPrices.platinum *= (1 + (Math.random() * 0.003 - 0.0015));
+            renderTicker();
+            renderCategory();
+            document.querySelectorAll('.price-container').forEach(c => { c.classList.add('price-flash'); setTimeout(() => c.classList.remove('price-flash'), 1000); });
+        }
+        document.addEventListener('DOMContentLoaded', renderCategory);
+    </script>
+</body>
+</html>

@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Current Deals - John's Precious Metals</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        navy: '#0a192f',
+                        gold: '#d4af37',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .price-flash { animation: flashGreen 1s ease-out; }
+        @keyframes flashGreen {
+            0% { background-color: rgba(34, 197, 94, 0.2); }
+            100% { background-color: transparent; }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans">
+
+    <!-- Live Market Ticker -->
+    <div class="bg-navy text-white text-sm py-2 px-4 flex justify-between items-center overflow-hidden">
+        <div class="flex space-x-6 whitespace-nowrap" id="ticker-bar">
+            <span>Loading live markets...</span>
+        </div>
+        <div class="text-xs text-gray-400 hidden sm:block">
+            <i class="fa-solid fa-bolt text-yellow-400"></i> Powered by Upstate Coins API
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="bg-white shadow-md sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-20 items-center">
+                
+                <div class="flex-1 flex items-center justify-start space-x-2">
+                    <a href="index.html" class="flex items-center space-x-2">
+                        <i class="fa-solid fa-coins text-gold text-3xl"></i>
+                        <span class="font-bold text-2xl tracking-tight text-navy">John's Metals</span>
+                    </a>
+                </div>
+                
+                <div class="flex-1 hidden md:flex justify-center space-x-8 font-semibold text-gray-600">
+                    <a href="gold.html" class="hover:text-gold transition">Gold</a>
+                    <a href="silver.html" class="hover:text-gold transition">Silver</a>
+                    <a href="platinum.html" class="hover:text-gold transition">Platinum</a>
+                    <a href="deals.html" class="text-gold border-b-2 border-gold pb-1">Deals</a>
+                    <a href="about.html" class="hover:text-gold transition">About Us</a>
+                </div>
+                
+                <div class="flex-1 flex items-center justify-end space-x-4 text-navy">
+                    <a href="login.html" class="hover:text-gold"><i class="fa-solid fa-user text-xl"></i></a>
+                    <a href="checkout.html" class="hover:text-gold relative">
+                        <i class="fa-solid fa-shopping-cart text-xl"></i>
+                        <span id="cart-count" class="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center transition-transform duration-200">0</span>
+                    </a>
+                </div>
+                
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <div class="bg-navy py-12 border-t border-gray-700">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <h1 class="text-3xl sm:text-4xl font-bold text-white mb-2">Current Weekly Deals</h1>
+            <p class="text-gray-300">Take advantage of discounted premiums on top-tier bullion. Prices lock at checkout.</p>
+        </div>
+    </div>
+
+    <!-- Main Content Area -->
+    <div class="max-w-7xl mx-auto px-4 py-8 flex flex-col md:flex-row gap-8">
+        
+        <!-- Sidebar Filters -->
+        <aside class="w-full md:w-64 flex-shrink-0">
+            <div class="bg-white p-5 rounded-lg shadow-sm border border-gray-100">
+                <h3 class="font-bold text-navy mb-4 border-b pb-2">Filter Deals</h3>
+                
+                <!-- Metal Type -->
+                <div class="mb-6">
+                    <h4 class="text-sm font-semibold text-gray-700 mb-2">Metal Type</h4>
+                    <label class="flex items-center mb-2 cursor-pointer">
+                        <input type="checkbox" value="gold" class="filter-metal text-gold focus:ring-gold rounded mr-2" checked> Gold
+                    </label>
+                    <label class="flex items-center mb-2 cursor-pointer">
+                        <input type="checkbox" value="silver" class="filter-metal text-gold focus:ring-gold rounded mr-2" checked> Silver
+                    </label>
+                    <label class="flex items-center cursor-pointer">
+                        <input type="checkbox" value="platinum" class="filter-metal text-gold focus:ring-gold rounded mr-2" checked> Platinum
+                    </label>
+                </div>
+
+                <!-- Deal Type -->
+                <div>
+                    <h4 class="text-sm font-semibold text-gray-700 mb-2">Deal Category</h4>
+                    <label class="flex items-center mb-2 cursor-pointer">
+                        <input type="checkbox" value="Flash Sale" class="filter-tag text-gold focus:ring-gold rounded mr-2" checked> Flash Sale
+                    </label>
+                    <label class="flex items-center mb-2 cursor-pointer">
+                        <input type="checkbox" value="Any Qty Pricing" class="filter-tag text-gold focus:ring-gold rounded mr-2" checked> Any Qty Pricing
+                    </label>
+                    <label class="flex items-center cursor-pointer">
+                        <input type="checkbox" value="Overstock" class="filter-tag text-gold focus:ring-gold rounded mr-2" checked> Overstock
+                    </label>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Product Grid -->
+        <div class="flex-grow">
+            <div class="flex justify-between items-center mb-6">
+                <p id="deals-count" class="text-gray-600 text-sm">Showing 0 deals</p>
+                <select id="sort-select" class="border border-gray-300 rounded p-2 text-sm focus:ring-gold focus:border-gold">
+                    <option value="premium-low">Sort by: Lowest Premium</option>
+                    <option value="value-high">Sort by: Metal Value (High to Low)</option>
+                    <option value="name-az">Sort by: Name (A-Z)</option>
+                </select>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" id="deals-grid">
+                <!-- Deal Products injected by JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-gray-400 py-8 text-center text-sm mt-12">
+        <p>&copy; 2026 John's Metals. All rights reserved.</p>
+        <p class="mt-2">White Label E-commerce Prototype built with WordPress & WooCommerce</p>
+    </footer>
+
+    <!-- Global Cart & Market Script -->
+    <script src="script.js"></script>
+
+    <!-- JavaScript for Deals Logic -->
+    <script>
+        // Deal Catalog (We only define things here that aren't already in script.js)
+        const dealProducts = [
+            {
+                id: 101,
+                name: "1 oz Gold American Buffalo",
+                metal: "gold",
+                weightOz: 1,
+                regularPremium: 150.00,
+                salePremium: 99.99, 
+                tag: "Flash Sale",
+                image: "https://images.unsplash.com/photo-1610375461246-83df859d849d?auto=format&fit=crop&w=400&q=80"
+            },
+            {
+                id: 102,
+                name: "1 Kilo Silver Bar (Any Mint)",
+                metal: "silver",
+                weightOz: 32.15,
+                regularPremium: 65.00,
+                salePremium: 35.00, 
+                tag: "Overstock",
+                image: "https://imgs.search.brave.com/PPHHYLYUyshvdpKMfhMHCA8STwII-ZDvLG4LJHm7B_g/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9kdXJo/YW1wcmVjaW91c21l/dGFscy5iLWNkbi5u/ZXQvd3AtY29udGVu/dC91cGxvYWRzLzIw/MjEvMDUvVW50aXRs/ZWQtZGVzaWduLTYy/LndlYnA"
+            },
+            {
+                id: 103,
+                name: "1 oz Silver Rounds (Tube of 20)",
+                metal: "silver",
+                weightOz: 20,
+                regularPremium: 50.00,
+                salePremium: 25.00, 
+                tag: "Any Qty Pricing",
+                image: "https://imgs.search.brave.com/QDe19gpMsCn1iuxn7PKiR01q_8O7Z5NlqSvtErETGNk/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9pNS53/YWxtYXJ0aW1hZ2Vz/LmNvbS9zZW8vMS1v/ei1TaWx2ZXItUm91/bmQtUmFuZG9tLURl/c2lnbi1UdWJlLW9m/LTIwLVJvdW5kc181/YjViOTQ5Mi0xMGZk/LTQzMjYtYmNjZi0y/ZDVhNDBmZDg1ODMu/NzI5OTZmODQ4NGM1/Y2ViOTUwYWNmY2E0/Y2IxYjNlOWYuanBl/Zz9vZG5IZWlnaHQ9/NTczJm9kbldpZHRo/PTU3MyZvZG5CZz1G/RkZGRkY"
+            },
+            {
+                id: 104,
+                name: "1 oz Platinum Eagle",
+                metal: "platinum",
+                weightOz: 1,
+                regularPremium: 100.00,
+                salePremium: 65.00, 
+                tag: "Flash Sale",
+                image: "https://imgs.search.brave.com/OFG-KIs7nPaYuOgMp8GECzUBD6WHSji82J7X3oa8Vds/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly93d3cu/bW9uZXltZXRhbHMu/Y29tL2ltYWdlcy9w/cm9kdWN0cy9BbWVy/aWNhbi1QbGF0aW51/bS1lYWdsZS1Db2lu/cy0xYS5wbmc"
+            }
+        ];
+
+        function renderDeals() {
+            const grid = document.getElementById('deals-grid');
+            if (!grid) return;
+            grid.innerHTML = ''; 
+
+            // 1. Get active filters from checkboxes
+            const activeMetals = Array.from(document.querySelectorAll('.filter-metal:checked')).map(cb => cb.value);
+            const activeTags = Array.from(document.querySelectorAll('.filter-tag:checked')).map(cb => cb.value);
+            
+            // 2. Get current sort selection
+            const sortVal = document.getElementById('sort-select').value;
+
+            // 3. Filter the products array
+            let displayProducts = dealProducts.filter(product => {
+                return activeMetals.includes(product.metal) && activeTags.includes(product.tag);
+            });
+
+            // 4. Sort the products array
+            displayProducts.sort((a, b) => {
+                if (sortVal === 'premium-low') {
+                    return a.salePremium - b.salePremium;
+                } else if (sortVal === 'value-high') {
+                    const valA = spotPrices[a.metal] * a.weightOz;
+                    const valB = spotPrices[b.metal] * b.weightOz;
+                    return valB - valA;
+                } else if (sortVal === 'name-az') {
+                    return a.name.localeCompare(b.name);
+                }
+                return 0;
+            });
+
+            // 5. Update the "Showing X deals" counter text
+            document.getElementById('deals-count').innerText = `Showing ${displayProducts.length} deals`;
+
+            // 6. Build the HTML for the remaining products
+            if (displayProducts.length === 0) {
+                grid.innerHTML = '<p class="text-gray-500 col-span-full py-8 text-center">No deals match your selected filters.</p>';
+                return;
+            }
+
+            displayProducts.forEach(product => {
+                const baseValue = spotPrices[product.metal] * product.weightOz;
+                const regularPrice = baseValue + product.regularPremium;
+                const salePrice = baseValue + product.salePremium;
+                const savings = product.regularPremium - product.salePremium;
+
+                const card = `
+                    <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition duration-300 flex flex-col relative">
+                        <div class="absolute top-2 right-2 bg-red-600 text-white text-xs font-bold px-3 py-1 rounded shadow z-10">
+                            Save ${formatMoney(savings)}
+                        </div>
+                        
+                        <div class="h-48 overflow-hidden bg-gray-200">
+                            <img src="${product.image}" alt="${product.name}" class="w-full h-full object-cover opacity-90">
+                        </div>
+                        <div class="p-5 flex-grow flex flex-col justify-between">
+                            <div>
+                                <span class="text-xs font-bold text-gold uppercase tracking-wider bg-yellow-50 px-2 py-1 rounded border border-yellow-200">${product.tag}</span>
+                                <h3 class="text-lg font-bold text-navy mt-3 mb-2 leading-tight">${product.name}</h3>
+                            </div>
+                            
+                            <div class="mt-4 price-container rounded p-2 -mx-2 transition-colors duration-300">
+                                <p class="text-sm text-gray-500 line-through">${formatMoney(regularPrice)}</p>
+                                <p class="text-2xl font-bold text-green-600">${formatMoney(salePrice)}</p>
+                                <p class="text-xs text-gray-400 mt-1">Spot + $${(product.salePremium / product.weightOz).toFixed(2)}/oz premium</p>
+                            </div>
+                            
+                            <button onclick="addToCart(${product.id}, '${product.name}', ${salePrice}, ${product.salePremium})" class="mt-4 w-full bg-navy text-white font-semibold py-2 rounded hover:bg-gold transition duration-300">
+                                Add to Cart
+                            </button>
+                        </div>
+                    </div>
+                `;
+                grid.innerHTML += card;
+            });
+        }
+
+        // Overwrite the global simulateMarketChanges to include deals
+        function simulateMarketChanges() {
+            spotPrices.gold = spotPrices.gold * (1 + (Math.random() * 0.002 - 0.001));
+            spotPrices.silver = spotPrices.silver * (1 + (Math.random() * 0.004 - 0.002));
+            spotPrices.platinum = spotPrices.platinum * (1 + (Math.random() * 0.003 - 0.0015));
+
+            renderTicker();
+            if (typeof renderProducts === 'function') {
+                renderProducts(); 
+            }
+            renderDeals(); 
+            
+            const priceContainers = document.querySelectorAll('.price-container');
+            priceContainers.forEach(container => {
+                container.classList.add('price-flash');
+                setTimeout(() => container.classList.remove('price-flash'), 1000);
+            });
+        }
+
+        // Initialize deals and attach event listeners on load
+        document.addEventListener('DOMContentLoaded', () => {
+            renderDeals();
+            
+            // Listen for checkbox changes
+            document.querySelectorAll('.filter-metal, .filter-tag').forEach(checkbox => {
+                checkbox.addEventListener('change', renderDeals);
+            });
+            
+            // Listen for dropdown changes
+            document.getElementById('sort-select').addEventListener('change', renderDeals);
+        });
+    </script>
+</body>
+</html>

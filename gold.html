@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gold Bullion - John's Precious Metals</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = { theme: { extend: { colors: { navy: '#0a192f', gold: '#d4af37' } } } }
+    </script>
+    <style>
+        .price-flash { animation: flashGreen 1s ease-out; }
+        @keyframes flashGreen { 0% { background-color: rgba(34, 197, 94, 0.2); } 100% { background-color: transparent; } }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans">
+
+    <!-- Live Market Ticker -->
+    <div class="bg-navy text-white text-sm py-2 px-4 flex justify-between items-center overflow-hidden">
+        <div class="flex space-x-6 whitespace-nowrap" id="ticker-bar"><span>Loading live markets...</span></div>
+        <div class="text-xs text-gray-400 hidden sm:block"><i class="fa-solid fa-bolt text-yellow-400"></i> Powered by Upstate Coins API</div>
+    </div>
+
+    <!-- Navigation -->
+<nav class="bg-white shadow-md sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-20 items-center">
+                
+                <!-- Left Container: Logo -->
+                <div class="flex-1 flex items-center justify-start space-x-2">
+                    <i class="fa-solid fa-coins text-gold text-3xl"></i>
+                    <a href="index.html" class="font-bold text-2xl tracking-tight text-navy">John's Metals</a>
+                </div>
+                
+                <!-- Middle Container: Links -->
+                <div class="flex-1 hidden md:flex justify-center space-x-8 font-semibold text-gray-600">
+                    <a href="gold.html" class="hover:text-gold transition">Gold</a>
+                    <a href="silver.html" class="hover:text-gold transition">Silver</a>
+                    <a href="platinum.html" class="hover:text-gold transition">Platinum</a>
+                    <a href="deals.html" class="hover:text-gold transition">Deals</a>
+                    <a href="about.html" class="hover:text-gold transition">About Us</a>
+                </div>
+                
+                <!-- Right Container: Icons -->
+                <div class="flex-1 flex items-center justify-end space-x-4 text-navy">
+                    <a href="login.html" class="hover:text-gold"><i class="fa-solid fa-user text-xl"></i></a>
+                    <a href="checkout.html" class="hover:text-gold relative">
+                        <i class="fa-solid fa-shopping-cart text-xl"></i>
+                        <span id="cart-count" class="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center transition-transform duration-200">0</span>
+                    </a>
+                </div>
+                
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <div class="bg-yellow-50 py-12 border-t border-yellow-200 shadow-inner">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <h1 class="text-3xl sm:text-4xl font-bold text-navy mb-2">Gold Bullion & Coins</h1>
+            <p class="text-gray-600">Investment-grade gold sourced directly from trusted mints and distributors.</p>
+        </div>
+    </div>
+
+    <!-- Main Content Area -->
+    <div class="max-w-7xl mx-auto px-4 py-12">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6" id="category-grid">
+            <!-- Products injected by JS -->
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="script.js"></script>
+    <script>
+        const categoryProducts = [
+            { id: 201, name: "1 oz Gold American Eagle", metal: "gold", weightOz: 1, premium: 125.00, image: "https://images.unsplash.com/photo-1610375461246-83df859d849d?auto=format&fit=crop&w=400&q=80" },
+            { id: 202, name: "1 oz Gold Canadian Maple", metal: "gold", weightOz: 1, premium: 85.00, image: "https://imgs.search.brave.com/yYsgCH8X63N9EoK8qSxGAvkJkzGgOxQ3wRqCgr1CCqc/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9pLmVi/YXlpbWcuY29tL2lt/YWdlcy9nL0lJOEFB/ZVN3ZEpCcDNPN2ov/cy1sNDAwLndlYnA" },
+            { id: 203, name: "1 oz Gold Krugerrand", metal: "gold", weightOz: 1, premium: 75.00, image: "https://imgs.search.brave.com/wOiIpgrdkOKa7eyOGj63j8VQt2JaLkHBWsgZ9EQ6Efc/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9sb25l/c3RhcmNvaW5zLmNv/bS9fbmV4dC9pbWFn/ZT91cmw9aHR0cHM6/Ly9tZWtieGV3cmhz/b3Z4dWJxZXd3aC5z/dXBhYmFzZS5jby9z/dG9yYWdlL3YxL29i/amVjdC9wdWJsaWMv/cHJvZHVjdC1pbWFn/ZXMvcHJvZHVjdHMv/Ml84Mjk1MTQ0NDIz/NjIzXzFfMl9vel9T/b3V0aF9BZnJpY2Fu/X0dvbGRfS3J1Z2Vy/cmFuZF9fX1JldmVy/c2Vfd2l0X2U2N2Rk/ZTRiLWEwZDAtNDI5/OS04ZWIzLTM5NjVm/NzE3MWJmMi5qcGcm/dz0xOTIwJnE9NzU" },
+            { id: 204, name: "10 oz Gold Bar (PAMP)", metal: "gold", weightOz: 10, premium: 450.00, image: "https://imgs.search.brave.com/frT0heT9xhm2fONwuknwEZlxwHgbtp_Kw77zb5wRKV0/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly93d3cu/aW1hZ2VzLWFwbWV4/LmNvbS9pbWFnZXMv/cHJvZHVjdHMvMS1v/ei1nb2xkLWJhci1w/YW1wLWxhZHktZm9y/dHVuYS12ZXJpc2Nh/bi1pbi1hc3NheV84/MjIzNl9zbGFiLmpw/Zz92PTIwMTkxMTA3/MjEzNTUyJnY9MjAy/NTAyMTMwOTM4MDkm/dj92PTIwMjYwMzI2/MTAyMjE5JndpZHRo/PTU2MCZoZWlnaHQ9/NTYw" }
+        ];
+
+        function renderCategory() {
+            const grid = document.getElementById('category-grid');
+            if (!grid) return;
+            grid.innerHTML = ''; 
+            categoryProducts.forEach(product => {
+                const retailPrice = (spotPrices[product.metal] * product.weightOz) + product.premium;
+                grid.innerHTML += `
+                    <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition duration-300 flex flex-col">
+                        <div class="h-48 overflow-hidden bg-gray-200"><img src="${product.image}" class="w-full h-full object-cover"></div>
+                        <div class="p-5 flex-grow flex flex-col justify-between">
+                            <div>
+                                <p class="text-xs text-gray-500 uppercase font-bold tracking-wider mb-1">${product.weightOz} oz ${product.metal}</p>
+                                <h3 class="text-lg font-bold text-navy mb-2 leading-tight">${product.name}</h3>
+                            </div>
+                            <div class="mt-4 price-container rounded p-2 -mx-2 transition-colors duration-300">
+                                <p class="text-2xl font-bold text-green-600">${formatMoney(retailPrice)}</p>
+                            </div>
+                            <button onclick="addToCart(${product.id}, '${product.name}', ${retailPrice}, ${product.premium})" class="mt-4 w-full bg-navy text-white font-semibold py-2 rounded hover:bg-gold transition duration-300">Add to Cart</button>
+                        </div>
+                    </div>`;
+            });
+        }
+
+        function simulateMarketChanges() {
+            spotPrices.gold *= (1 + (Math.random() * 0.002 - 0.001));
+            spotPrices.silver *= (1 + (Math.random() * 0.004 - 0.002));
+            spotPrices.platinum *= (1 + (Math.random() * 0.003 - 0.0015));
+            renderTicker();
+            renderCategory();
+            document.querySelectorAll('.price-container').forEach(c => { c.classList.add('price-flash'); setTimeout(() => c.classList.remove('price-flash'), 1000); });
+        }
+        document.addEventListener('DOMContentLoaded', renderCategory);
+    </script>
+</body>
+</html>

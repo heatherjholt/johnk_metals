@@ -1,0 +1,13 @@
+/* Price update flash animation */
+.price-flash {
+    animation: flashGreen 1s ease-out;
+}
+
+@keyframes flashGreen {
+    0% { 
+        background-color: rgba(34, 197, 94, 0.2); 
+    }
+    100% { 
+        background-color: transparent; 
+    }
+}
