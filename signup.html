@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Account - Mint Gold Reserve</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        navy: '#032418',
+                        gold: '#d4af37'
+                    }
+                }
+            }
+        };
+    </script>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans min-h-screen flex flex-col">
+    <nav class="bg-white shadow-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-20 items-center">
+                <a href="index.html" class="flex items-center space-x-2">
+                    <i class="fa-solid fa-coins text-gold text-3xl"></i>
+                    <span class="font-bold text-2xl tracking-tight text-navy">Mint Gold Reserve</span>
+                </a>
+                <a href="index.html" class="text-sm text-gray-500 hover:text-gold transition">&larr; Back to Store</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="flex-grow flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+        <section class="max-w-md w-full space-y-8 bg-white p-10 rounded-xl shadow-lg border-t-4 border-gold">
+            <div class="text-center">
+                <i class="fa-solid fa-user-plus text-4xl text-navy mb-4"></i>
+                <h1 class="text-3xl font-bold text-navy">Create Your Account</h1>
+                <p class="mt-2 text-sm text-gray-600">Track orders, manage your portfolio, and check out faster.</p>
+            </div>
+
+            <form id="signup-form" class="space-y-5">
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label for="first-name" class="block text-sm font-medium text-gray-700">First name</label>
+                        <input id="first-name" name="first-name" type="text" autocomplete="given-name" required class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-gold focus:border-gold sm:text-sm">
+                    </div>
+                    <div>
+                        <label for="last-name" class="block text-sm font-medium text-gray-700">Last name</label>
+                        <input id="last-name" name="last-name" type="text" autocomplete="family-name" required class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-gold focus:border-gold sm:text-sm">
+                    </div>
+                </div>
+                <div>
+                    <label for="signup-email" class="block text-sm font-medium text-gray-700">Email address</label>
+                    <input id="signup-email" name="email" type="email" autocomplete="email" required placeholder="you@example.com" class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-gold focus:border-gold sm:text-sm">
+                </div>
+                <div>
+                    <label for="signup-password" class="block text-sm font-medium text-gray-700">Password</label>
+                    <input id="signup-password" name="password" type="password" autocomplete="new-password" minlength="8" required class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-gold focus:border-gold sm:text-sm">
+                    <p class="mt-1 text-xs text-gray-500">Use at least 8 characters.</p>
+                </div>
+                <div>
+                    <label for="confirm-password" class="block text-sm font-medium text-gray-700">Confirm password</label>
+                    <input id="confirm-password" name="confirm-password" type="password" autocomplete="new-password" minlength="8" required class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-gold focus:border-gold sm:text-sm">
+                </div>
+                <label class="flex items-start text-sm text-gray-600">
+                    <input id="terms" name="terms" type="checkbox" required class="mt-1 h-4 w-4 text-navy focus:ring-gold border-gray-300 rounded">
+                    <span class="ml-2">I agree to the Mint Gold Reserve terms and privacy policy.</span>
+                </label>
+                <button type="submit" class="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-bold text-white bg-navy hover:bg-gold hover:text-navy focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gold transition-colors duration-300">Create Account</button>
+            </form>
+
+            <p id="signup-message" class="hidden text-center text-sm font-semibold text-green-700" role="status"></p>
+            <p class="text-center text-sm text-gray-600 border-t border-gray-200 pt-6">Already have an account? <a href="login.html" class="font-medium text-navy hover:text-gold transition">Sign in</a>.</p>
+        </section>
+    </main>
+
+    <footer class="bg-gray-900 text-gray-400 py-6 text-center text-xs">
+        <p>&copy; 2026 Mint Gold Reserve. All rights reserved.</p>
+        <p class="mt-1">Mock registration page for prototype purposes.</p>
+    </footer>
+
+    <script>
+        document.getElementById('signup-form').addEventListener('submit', (event) => {
+            event.preventDefault();
+            const password = document.getElementById('signup-password').value;
+            const confirmation = document.getElementById('confirm-password').value;
+            const message = document.getElementById('signup-message');
+
+            if (password !== confirmation) {
+                message.textContent = 'Passwords do not match.';
+                message.className = 'text-center text-sm font-semibold text-red-600';
+                return;
+            }
+
+            message.textContent = 'Account created successfully. Welcome to Mint Gold Reserve!';
+            message.className = 'text-center text-sm font-semibold text-green-700';
+            event.target.reset();
+        });
+    </script>
+    <script src="newsletter.js"></script>
+</body>
+</html>
